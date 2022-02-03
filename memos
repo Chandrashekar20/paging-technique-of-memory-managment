@@ -1,0 +1,48 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct process
+{
+    int f,pr;
+}ptable[25];
+int main()
+{
+    int ftable[10],psize,vsize,size,pages,frames,i,frameno,laddr,paddr,phyaddr,disp;
+    printf("\nEnter the Size of the Process : ");
+    scanf("%d",&psize);
+    printf("\nEnter the Main Memory Size: ");
+    scanf("%d",&vsize);
+    printf("\nEnter the Size of Each Page/Frame : ");
+    scanf("%d",&size);
+    pages = psize/size;
+    frames = vsize/size;
+    printf("\nThe Number of Pages are : %d\nThe Number of Frames are : %d",pages,frames);
+    for(i=0;i<pages;i++)
+    {
+        ptable[i].f = -1;
+        ptable[i].pr = -1;
+    }
+    for(i=0;i<frames;i++)
+    {
+        ftable[i] = 999;
+    }
+    for(i=0;i<pages;i++)
+    {
+        printf("\nEnter the Frame for Page %d : ",i+1);
+        scanf("%d",&frameno);
+        ftable[frameno] = (i+1);
+        if(ptable[i].pr == -1 && frameno != -1)
+        {
+            ptable[i].f = frameno ;
+            ptable[i].pr = 1;
+        }
+    }
+  printf("\nEnter the Logical Address : ");
+  scanf("%d",&laddr);
+  paddr = laddr/size;
+  disp = laddr%size;
+  if(ptable[paddr].pr == 1)
+    phyaddr = (ptable[paddr].f*size)+disp;
+    printf("\nThe Logical Address is : %d",phyaddr);
+    return 1;
+    
+    }
